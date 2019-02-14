@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHTTP = require("express-graphql");
 const { buildSchema } = require("graphql");
+const mongoose = require("mongoose");
+
 
 const app = express();
 
@@ -59,4 +61,11 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-app.listen(3000);
+mongoose.connect(
+  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@ds119085.mlab.com:19085/graphql-events`, { useNewUrlParser: true }
+).then(() => {
+  app.listen(3000);
+})
+.catch(err => {
+  console.log(err)
+});
