@@ -12,6 +12,16 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const user = userId => {
+  return User.findById(userId)
+          .then(user => {
+            return { ...user._doc, _id: user.id}
+          })
+          .catch(err => {
+            throw err;
+          })
+}
+
 app.use('/graphql', graphqlHTTP({
   schema: buildSchema(`
     type Event {
@@ -59,11 +69,11 @@ app.use('/graphql', graphqlHTTP({
   rootValue: {
     events: () => {
       return Event.find()
-      .populate("creator")
       .then(events => {
         return events.map(event => {
           return {
-            ...event._doc
+            ...event._doc,
+            creator: user.bind(this, event._doc.creator) // pointing to constant above, holding the arrow function
           };
         })
       })
