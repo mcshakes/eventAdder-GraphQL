@@ -15,7 +15,10 @@ app.use(bodyParser.json());
 const events = eventIds => {
   return Event.find({ _id: { $in: eventIds} })
     .then(events => {
-      return { ...event._doc, _id: event.id, creator: user.bind(this, event.creator)}
+      return {
+        ...event._doc,
+        _id: event.id,
+        creator: user.bind(this, event.creator)} // using functions allows person to drill deeper and look at nested object
     })
     .catch(err => {
       throw err
@@ -25,7 +28,10 @@ const events = eventIds => {
 const user = userId => {
   return User.findById(userId)
           .then(user => {
-            return { ...user._doc, _id: user.id, createdEvents: events.bind(this, user._doc.createdEvents)}
+            return {
+              ...user._doc,
+              _id: user.id,
+              createdEvents: events.bind(this, user._doc.createdEvents)}
           })
           .catch(err => {
             throw err;
@@ -106,7 +112,7 @@ app.use('/graphql', graphqlHTTP({
       return event
         .save()
         .then(result => {
-          createdEvent = {...result._doc};
+          createdEvent = {...result._doc, creator: user.bind(this, result._doc.creator)};
           return User.findById("5c661d0cb12f437e3b9af1be")
         })
         .then(user => {
