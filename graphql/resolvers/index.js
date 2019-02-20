@@ -143,12 +143,12 @@ module.exports = {
 
   bookEvent: async args => {
     const fetchedEvent = await Event.findOne({_id: args.eventId});
-    // console.log("BOOK EVENT:", fetchedEvent)
+
     const booking = new Booking({
       user: "5c69f7de23f2b543da6316c8",
       event: fetchedEvent
     });
-    // console.log("BOOKING", booking)
+
     const result = await booking.save();
     return {
       ...result._doc,
@@ -167,9 +167,10 @@ module.exports = {
       const event =  {
         ...booking.event._doc,
         _id: booking.event.id,
-        creator: user.bind(this, booking.creator)
+        // creator: user.bind(this, booking.creator)
+        creator: user.bind(this, booking.event._doc.creator)
       }
-
+    console.log("EVETN", event)
       await Booking.deleteOne({ _id: args.bookingId });
       return event;
     } catch (err) {
