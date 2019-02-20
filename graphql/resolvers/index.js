@@ -142,21 +142,37 @@ module.exports = {
   },
 
   bookEvent: async args => {
-    const fetchedEvent = await Event.findOne({_id: args.eventid});
-
+    const fetchedEvent = await Event.findOne({_id: args.eventId});
+    console.log("EVENT", fetchedEvent)
     const booking = new Booking({
       user: "5c69f7de23f2b543da6316c8",
       event: fetchedEvent
     });
 
     const result = await booking.save();
+    console.log(result)
     return {
-      ...result._doc,
+      ...result,
       _id: result.id,
       user: user.bind(this, booking._doc.user),
       event: singleEvent.bind(this, booking._doc.event),
       createdAt: new Date(booking._doc.createdAt).toISOString(),
       createdAt: new Date(booking._doc.updatedAt).toISOString()
+    }
+  },
+
+  cancelBooking: async args => {
+    try {
+      const booking = await Booking.findById(args.bookingId).populate("event");
+      const event =  {
+        ...booking.event,
+        _id: booking.event.id,
+        creator: user.bind(this, booking.creator)
+      }
+      await Booking.deleteOne({ _id: args.bookingId });
+      return event;
+    } catch (err) {
+      throw err
     }
   }
 };
