@@ -45,7 +45,7 @@ app.use(
 		`),
 		rootValue: {
 			events: () => {
-				return Event
+				return  Event
 					.find()
 					.then(events => {
 						return events.map(event => {
