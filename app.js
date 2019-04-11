@@ -80,20 +80,25 @@ app.use(
 					creator: "5cafbd23fe0264ff3064f0ca"
 				});
 
-				
+				let createdEvent;
+
 				return event
 					.save()
 					.then(result => {
+						createdEvent = {...result._doc};
 						return User.findById("5cafbd23fe0264ff3064f0ca")
-						console.log(result);
-						return {...result._doc};
+						
 					})
 					.then(user => {
-						if (user) {
-							throw new Error("User exists already.")
+						if (!user) {
+							throw new Error("User not found.")
 						}
-
-						user.createEvents.push(event);
+						
+						user.createdEvents.push(event);
+						return user.save();
+					})
+					.then(result => {
+						return createdEvent;
 					})
 					.catch(err => {
 						console.log(err);
