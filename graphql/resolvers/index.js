@@ -3,21 +3,23 @@ const bcrypt = require("bcryptjs");
 const Event = require("../../models/event");
 const User = require("../../models/user");
 
-const events = eventIds => {
-	return Event.find({ _id: { $in: eventIds }})
-	.then(events => {
-		return events.map(event => {
-			return { 
-				...event._doc, 
-				_id: event.id, 
-				creator: user.bind(this, event.creator),
-				date: new Date(event._doc.date).toISOString() 
-			}
-		})
-	})
-	.catch(err => {
-		throw err;
-	})
+const events = async eventIds => {
+	
+	const events = await Event.find({ _id: { $in: eventIds }})
+
+		try {
+			events.map(event => {
+				return { 
+					...event._doc, 
+					_id: event.id, 
+					creator: user.bind(this, event.creator),
+					date: new Date(event._doc.date).toISOString() 
+				}
+			})
+
+		} catch (err) {
+			throw err;
+		}
 }
 
 const user = userId => {
@@ -57,7 +59,7 @@ module.exports = {
 					description: args.eventInput.description,
 					price: +args.eventInput.price,
 					date: new Date(args.eventInput.date),
-					creator: "5cafbd23fe0264ff3064f0ca"
+					creator: "5cb77a6a9c000525abb18145"
 				});
 
 				let createdEvent;
@@ -70,7 +72,7 @@ module.exports = {
 							creator: user.bind(this, result._doc.creator),
 							date: new Date(event._doc.date).toISOString() 
 						};
-						return User.findById("5cafbd23fe0264ff3064f0ca")
+						return User.findById("5cb77a6a9c000525abb18145")
 						
 					})
 					.then(user => {
