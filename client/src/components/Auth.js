@@ -16,7 +16,7 @@ class AuthPage extends React.Component {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
-	}
+	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
@@ -24,7 +24,21 @@ class AuthPage extends React.Component {
 		let email = this.state.email;
 		let password = this.state.password;
 
-		console.log(email, password)
+		let requestBody = {
+			query: `
+				mutation {
+					createUser(userInput: { email: "${email}", password: "${password}"})
+				}
+			`
+		}
+
+		fetch("http://localhost:8080/graphql", {
+			method: "POST",
+			body: JSON.stringify(requestBody),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
 
 	};
 
