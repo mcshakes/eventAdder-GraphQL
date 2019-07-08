@@ -1,0 +1,22 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+
+const mainNavigation = props => {
+	return (
+		<header>
+			<div className="main-navigation__logo">
+				<h1>Find Your People</h1>
+			</div>
+
+			<nav className="main-navigation__item">
+				<ul>
+					<li><NavLink to="/events">Events</NavLink></li>
+					<li><NavLink to="/bookings">Bookings</NavLink></li>
+					<li><NavLink to="/auth">Log In!</NavLink></li>
+				</ul>
+			</nav>
+		</header>
+	)
+}
+
+export default mainNavigation;
