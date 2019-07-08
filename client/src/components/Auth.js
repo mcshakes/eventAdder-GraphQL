@@ -27,7 +27,14 @@ class AuthPage extends React.Component {
 		let requestBody = {
 			query: `
 				mutation {
-					createUser(userInput: { email: "${email}", password: "${password}"})
+					createUser(
+						userInput: { 
+							email: "${email}", 
+							password: "${password}"}) 
+					{
+						_id
+						email
+					}
 				}
 			`
 		}
