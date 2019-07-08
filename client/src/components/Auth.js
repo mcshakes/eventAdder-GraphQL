@@ -2,6 +2,10 @@ import React from "react";
 import "./Auth.css";
 
 class AuthPage extends React.Component {
+	state = {
+		isLogin: true
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -9,7 +13,12 @@ class AuthPage extends React.Component {
 			email: "",
 			password: ""
 		}
+	}
 
+	switchButtonHandler = () => {
+		this.setState(prevState => {
+			return {isLogin: !prevState.isLogin};
+		})
 	}
 
 	handleChange = (event) => {
@@ -26,18 +35,33 @@ class AuthPage extends React.Component {
 
 		let requestBody = {
 			query: `
-				mutation {
-					createUser(
-						userInput: { 
-							email: "${email}", 
-							password: "${password}"}) 
-					{
-						_id
-						email
+				query {
+					login(email: "${email}", password: "${password}") {
+						userId
+						token
+						tokenExpiration
 					}
 				}
 			`
 		}
+
+		if (!this.state.isLogin) {
+			requestBody = {
+				query: `
+					mutation {
+						createUser(
+							userInput: { 
+								email: "${email}", 
+								password: "${password}"}) 
+						{
+							_id
+							email
+						}
+					}
+				`
+			}
+		};
+		
 
 		fetch("http://localhost:8080/graphql", {
 			method: "POST",
@@ -45,6 +69,18 @@ class AuthPage extends React.Component {
 			headers: {
 				"Content-Type": "application/json"
 			}
+		})
+		.then(res => {
+			if (res.status !== 200 && res.status !== 201) {
+				throw new Error("Failed!");
+			}
+			return res.json();
+		})
+		.then(resData => {
+			console.log(resData)
+		})
+		.catch(err => {
+			console.log(err);
 		})
 
 	};
@@ -72,8 +108,12 @@ class AuthPage extends React.Component {
 				</div>
 
 				<div className="form-actions">
-					<button type="button">Switch to Signup</button>
 					<button type="submit">Submit</button>
+					
+					<button type="button" 
+							onClick={this.switchButtonHandler}>
+						Switch to {this.state.isLogin ? "Sign Up" : "Log In"}
+					</button>
 				</div>
 			</form>
 		);
