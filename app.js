@@ -34,6 +34,8 @@ app.use(
 	})
 );
 
+// mlab is DB
+
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-l4uk8.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, { useNewUrlParser: true })
 	.then(() => {
 		app.listen(8080); 		

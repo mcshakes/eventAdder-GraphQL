@@ -81,7 +81,10 @@ class AuthPage extends React.Component {
 			return res.json();
 		})
 		.then(resData => {
+			console.log("resData in Auth.js", resData)
 			if (resData.data.login.token) {
+				// this.context is a property given by react through the context object
+				
 				this.context.login(
 					resData.data.login.token, 
 					resData.data.login.userId, 
