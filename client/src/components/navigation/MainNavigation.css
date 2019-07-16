@@ -7,11 +7,15 @@
 	background: #01d1d1;
 	display: flex;
 	align-items: center;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
 }
 
 .main-navigation__logo h1 {
-	margin: 0;
 	font-size: 1.5rem;
+
 }
 
 .main-navigation__items {
@@ -23,21 +27,32 @@
 	padding: 0;
 	list-style: none;
 	margin: 0;
+	align-items: center;
 
 }
 
 .main-navigation__items li {
 	/*top is zero and left to right is 1rem*/
 	margin: 0 1rem;
+
 }
 
 .main-navigation__items a {
 	text-decoration: none;
 	color: black;
+	padding: 0.25rem 0.5rem;
+	border: none;
+	font: inherit;
+	background: transparent;
+	cursor: pointer;
+	vertical-align: middle;
+	margin: 0;
 }
 
 .main-navigation__items a:active,
 .main-navigation__items a:hover,
 .main-navigation__items a.active {
-	color: yellow;
+	background: #ffffff;
+	color: #5101d1;
+	border-radius: 5px;
 }
