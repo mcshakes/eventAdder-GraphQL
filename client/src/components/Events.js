@@ -14,16 +14,24 @@ class EventsPage extends React.Component {
 		this.setState({ creatingStatus: true });
 	}
 
+	cancelEventCreation = () => {
+		this.setState({ creatingStatus: false });	
+	}
+
+	confirmEventCreation = () => {
+		console.log("confirm")
+	}
+
 	render() {
-
-
 
 		return (
 			<React.Fragment>
 				{this.state.creatingStatus && <Backdrop />}
-				{this.state.creatingStatus && <Modal title="Add Event" canCancel canConfirm>
-					<p>Modal Content</p>
-				</Modal>}
+				{this.state.creatingStatus && (
+					<Modal title="Add Event" canCancel canConfirm onCancel={this.cancelEventCreation} onConfirm={this.confirmEventCreation}>
+						<p>Modal Content</p>
+					</Modal>
+				)}
 
 				<div className="events-control">
 					<p>share your events</p>
