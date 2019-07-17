@@ -28,8 +28,29 @@ class EventsPage extends React.Component {
 			<React.Fragment>
 				{this.state.creatingStatus && <Backdrop />}
 				{this.state.creatingStatus && (
-					<Modal title="Add Event" canCancel canConfirm onCancel={this.cancelEventCreation} onConfirm={this.confirmEventCreation}>
-						<p>Modal Content</p>
+					<Modal title="Add Event" 
+						canCancel canConfirm 
+						onCancel={this.cancelEventCreation} 
+						onConfirm={this.confirmEventCreation}
+					>
+						<form>
+							<div className="form-control">
+								<label htmlFor="title">Title</label>
+								<input type="text" id="title" />
+							</div>
+							<div className="form-control">
+								<label htmlFor="price">Price</label>
+								<input type="number" id="price" />
+							</div>
+							<div className="form-control">
+								<label htmlFor="date">Date</label>
+								<input type="date" id="date" />
+							</div>
+							<div className="form-control">
+								<label htmlFor="description">Description</label>
+								<textarea id="description" rows="4" />
+							</div>
+						</form>
 					</Modal>
 				)}
 
