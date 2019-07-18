@@ -2,6 +2,7 @@ import React from "react";
 
 import Modal from "../components/modals/Modal";
 import Backdrop from "./backdrop/Backdrop";
+import AuthContext from "../context/auth-context";
 import "./Events.css";
 
 
@@ -9,6 +10,8 @@ class EventsPage extends React.Component {
 	state = {
 		creatingStatus: false
 	};
+
+	static contextType = AuthContext;
 
 	constructor(props) {
 		super(props);
@@ -39,13 +42,13 @@ class EventsPage extends React.Component {
 		this.setState({ creatingStatus: false });	
 
 		const title = this.state.title;
-		const price = this.state.price;
+		const price = +this.state.price; 	//converts to number
 		const date = this.state.date;
 		const description = this.state.description;
 
 		if (
 			title.trim().length === 0 ||
-			price.trim().length === 0 ||
+			price <= 0 ||
 			date.trim().length === 0 ||
 			description.trim().length === 0
 		) {
@@ -54,7 +57,61 @@ class EventsPage extends React.Component {
 
 		const newEvent = {title, price, date, description};
 
+		let requestBody = {
+			query: `
+				mutation {
+					createEvent(eventInput: {
+						title: "${title}",
+						description: "${description}",
+						price: ${price},
+						date: "${date}"
+					}) {
+						_id
+						title
+						description
+						date
+						price
+						creator {
+							_id
+							email
+						}
+					}
+				}
+			`
+		}
 		
+		const token = this.context.token;
+
+		fetch("http://localhost:8080/graphql", {
+			method: "POST",
+			body: JSON.stringify(requestBody),
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + token
+
+			}
+		})
+		.then(res => {
+			if (res.status !== 200 && res.status !== 201) {
+				throw new Error("Failed!");
+			}
+			return res.json();
+		})
+		.then(resData => {
+			console.log("resData in Events.js", resData)
+			// if (resData.data.login.token) {
+			// 	// this.context is a property given by react through the context object
+				
+			// 	this.context.login(
+			// 		resData.data.login.token, 
+			// 		resData.data.login.userId, 
+			// 		resData.data.login.tokenExpiration
+			// 	);
+			// }
+		})
+		.catch(err => {
+			console.log(err);
+		})
 	}
 
 	render() {
