@@ -24,6 +24,10 @@ class EventsPage extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		this.fetchAllEvents();
+	}
+
 	createEventHandler = () => {
 		this.setState({ creatingStatus: true });
 	}
@@ -114,6 +118,47 @@ class EventsPage extends React.Component {
 		})
 	}
 
+	fetchAllEvents = () => {
+		let requestBody = {
+			query: `
+				query {
+					events {
+						_id
+						title
+						description
+						date
+						price
+						creator {
+							_id
+							email
+						}
+					}
+				}
+			`
+		}
+		
+		fetch("http://localhost:8080/graphql", {
+			method: "POST",
+			body: JSON.stringify(requestBody),
+			headers: {
+				"Content-Type": "application/json"
+
+			}
+		})
+		.then(res => {
+			if (res.status !== 200 && res.status !== 201) {
+				throw new Error("Failed!");
+			}
+			return res.json();
+		})
+		.then(resData => {
+			console.log("all events", resData)
+		})
+		.catch(err => {
+			console.log(err);
+		})
+	}
+
 	render() {
 
 		return (
@@ -180,6 +225,11 @@ class EventsPage extends React.Component {
 					</div>
 
 				)}
+				<ul className="events__list">
+					<li className="events__list-item">
+						Test
+					</li>
+				</ul>
 			</React.Fragment>
 		);
 	}

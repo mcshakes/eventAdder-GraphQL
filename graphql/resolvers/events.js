@@ -8,7 +8,7 @@ module.exports = {
 				return  Event
 					.find()
 					.then(events => {
-						return events.map(event => {							
+						return events.map(event => {
 							return { 
 								...event._doc, 
 								creator: user.bind(this, event._doc.creator),
