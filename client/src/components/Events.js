@@ -7,10 +7,6 @@ import "./Events.css";
 
 
 class EventsPage extends React.Component {
-	state = {
-		creatingStatus: false
-	};
-
 	static contextType = AuthContext;
 
 	constructor(props) {
@@ -20,7 +16,9 @@ class EventsPage extends React.Component {
 			title: "",
 			price: "",
 			date: "",
-			description: ""
+			description: "",
+			creatingStatus: false,
+			events: []
 		}
 	}
 
@@ -102,16 +100,8 @@ class EventsPage extends React.Component {
 			return res.json();
 		})
 		.then(resData => {
-			console.log("resData in Events.js", resData)
-			// if (resData.data.login.token) {
-			// 	// this.context is a property given by react through the context object
-				
-			// 	this.context.login(
-			// 		resData.data.login.token, 
-			// 		resData.data.login.userId, 
-			// 		resData.data.login.tokenExpiration
-			// 	);
-			// }
+			this.fetchEvents();
+			
 		})
 		.catch(err => {
 			console.log(err);
@@ -152,14 +142,31 @@ class EventsPage extends React.Component {
 			return res.json();
 		})
 		.then(resData => {
-			console.log("all events", resData)
+			const events = resData.data.events;
+			this.setState({ events: events });
 		})
 		.catch(err => {
 			console.log(err);
 		})
 	}
 
+	renderEvents = () => {
+		const { events } = this.state;
+		return this.state.events.map(event => (
+					<li key={event._id} className="events__list-item">
+						{event.title}
+					</li>)
+		);
+	}
+
 	render() {
+		const eventsLoaded = this.state.events !== undefined;
+		const { events } = this.state;
+
+		if (!events.length) {
+			return (<h2>PLEASE WAIT</h2>)
+		}
+
 
 		return (
 			<React.Fragment>
@@ -225,10 +232,9 @@ class EventsPage extends React.Component {
 					</div>
 
 				)}
+				
 				<ul className="events__list">
-					<li className="events__list-item">
-						Test
-					</li>
+					{ this.renderEvents() }
 				</ul>
 			</React.Fragment>
 		);
