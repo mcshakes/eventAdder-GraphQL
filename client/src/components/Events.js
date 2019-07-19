@@ -100,7 +100,7 @@ class EventsPage extends React.Component {
 			return res.json();
 		})
 		.then(resData => {
-			this.fetchEvents();
+			this.fetchAllEvents();
 			
 		})
 		.catch(err => {
