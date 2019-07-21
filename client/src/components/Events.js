@@ -3,6 +3,9 @@ import React from "react";
 import Modal from "../components/modals/Modal";
 import Backdrop from "./backdrop/Backdrop";
 import AuthContext from "../context/auth-context";
+
+import EventItem from "./events/EventItem";
+// import EventList from "./events/EventList";
 import "./Events.css";
 
 
@@ -152,11 +155,9 @@ class EventsPage extends React.Component {
 
 	renderEvents = () => {
 		const { events } = this.state;
-		return this.state.events.map(event => (
-					<li key={event._id} className="events__list-item">
-						{event.title}
-					</li>)
-		);
+		return this.state.events.map(event => {
+			return <EventItem key={event._id} title={event.title} />
+		})
 	}
 
 	render() {
