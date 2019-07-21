@@ -5,7 +5,7 @@ import Backdrop from "./backdrop/Backdrop";
 import AuthContext from "../context/auth-context";
 
 import EventItem from "./events/EventItem";
-// import EventList from "./events/EventList";
+import EventList from "./events/EventList";
 import "./Events.css";
 
 
@@ -153,12 +153,14 @@ class EventsPage extends React.Component {
 		})
 	}
 
-	renderEvents = () => {
-		const { events } = this.state;
-		return this.state.events.map(event => {
-			return <EventItem key={event._id} title={event.title} />
-		})
-	}
+	// renderEvents = () => {
+		// const { events } = this.state;
+
+		// return <EventList events={events} />
+		// return this.state.events.map(event => {
+		// 	return <EventItem key={event._id} title={event.title} />
+		// })
+	// }
 
 	render() {
 		const eventsLoaded = this.state.events !== undefined;
@@ -234,9 +236,7 @@ class EventsPage extends React.Component {
 
 				)}
 				
-				<ul className="events__list">
-					{ this.renderEvents() }
-				</ul>
+				<EventList events={events} />
 			</React.Fragment>
 		);
 	}
