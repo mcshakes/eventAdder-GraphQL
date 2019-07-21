@@ -6,6 +6,7 @@ import AuthContext from "../context/auth-context";
 
 import EventItem from "./events/EventItem";
 import EventList from "./events/EventList";
+import Spinner from "./spinner/Spinner"
 import "./Events.css";
 
 
@@ -21,7 +22,8 @@ class EventsPage extends React.Component {
 			date: "",
 			description: "",
 			creatingStatus: false,
-			events: []
+			events: [],
+			isLoading: false
 		}
 	}
 
@@ -123,6 +125,8 @@ class EventsPage extends React.Component {
 	}
 
 	fetchAllEvents = () => {
+		this.setState({ isLoading: true })
+
 		let requestBody = {
 			query: `
 				query {
@@ -157,10 +161,13 @@ class EventsPage extends React.Component {
 		})
 		.then(resData => {
 			const events = resData.data.events;
-			this.setState({ events: events });
+			this.setState({ events: events, isLoading: false });
+
 		})
 		.catch(err => {
 			console.log(err);
+			this.setState({ isLoading: false })
+
 		})
 	}
 
@@ -174,13 +181,7 @@ class EventsPage extends React.Component {
 	// }
 
 	render() {
-		const eventsLoaded = this.state.events !== undefined;
 		const { events } = this.state;
-
-		if (!events.length) {
-			return (<h2>PLEASE WAIT</h2>)
-		}
-
 
 		return (
 			<React.Fragment>
@@ -247,7 +248,12 @@ class EventsPage extends React.Component {
 
 				)}
 				
-				<EventList events={events} authUserId={this.context.userId}/>
+				{this.state.isLoading ? (
+					<Spinner />
+				) : (
+					<EventList events={events} authUserId={this.context.userId}/>
+				)}
+				
 			</React.Fragment>
 		);
 	}
