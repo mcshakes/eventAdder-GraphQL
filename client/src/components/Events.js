@@ -236,7 +236,7 @@ class EventsPage extends React.Component {
 
 				)}
 				
-				<EventList events={events} />
+				<EventList events={events} authUserId={this.context.userId}/>
 			</React.Fragment>
 		);
 	}
