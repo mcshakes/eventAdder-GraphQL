@@ -191,10 +191,12 @@ class EventsPage extends React.Component {
 			<React.Fragment>
 				{(this.state.creatingStatus || this.state.selectedEvent) && <Backdrop />}
 				{this.state.creatingStatus && (
-					<Modal title="Add Event" 
+					<Modal 
+						title="Add Event" 
 						canCancel canConfirm 
 						onCancel={this.cancelEventCreation} 
 						onConfirm={this.confirmEventCreation}
+						confirmText="Confirm"
 					>
 						<form>
 							<div className="form-control">
@@ -247,6 +249,7 @@ class EventsPage extends React.Component {
 						canConfirm 
 						onCancel={this.cancelEventCreation} 
 						onConfirm={this.bookEventHandler}
+						confirmText="Book Event"
 					>
 						<h1>{this.state.selectedEvent.title}</h1>
 						<h2>
