@@ -189,7 +189,7 @@ class EventsPage extends React.Component {
 
 		return (
 			<React.Fragment>
-				{this.state.creatingStatus && <Backdrop />}
+				{(this.state.creatingStatus || this.state.selectedEvent) && <Backdrop />}
 				{this.state.creatingStatus && (
 					<Modal title="Add Event" 
 						canCancel canConfirm 
