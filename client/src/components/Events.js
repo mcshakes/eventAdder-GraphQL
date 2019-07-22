@@ -23,7 +23,8 @@ class EventsPage extends React.Component {
 			description: "",
 			creatingStatus: false,
 			events: [],
-			isLoading: false
+			isLoading: false,
+			selectedEvent: null
 		}
 	}
 
@@ -36,7 +37,7 @@ class EventsPage extends React.Component {
 	}
 
 	cancelEventCreation = () => {
-		this.setState({ creatingStatus: false });	
+		this.setState({ creatingStatus: false, selectedEvent: null  });	
 	};
 
 	handleChange = (event) => {
@@ -171,14 +172,17 @@ class EventsPage extends React.Component {
 		})
 	}
 
-	// renderEvents = () => {
-		// const { events } = this.state;
+	showDetailHandler = (eventId) => {
+		this.setState(prevState => {
+			const selectedEvent = prevState.events.find(event => event._id === eventId)
 
-		// return <EventList events={events} />
-		// return this.state.events.map(event => {
-		// 	return <EventItem key={event._id} title={event.title} />
-		// })
-	// }
+			return { selectedEvent: selectedEvent };
+		})
+	}
+
+	bookEventHandler = () => {
+
+	}
 
 	render() {
 		const { events } = this.state;
@@ -237,6 +241,21 @@ class EventsPage extends React.Component {
 					</Modal>
 				)}
 
+				{this.state.selectedEvent && (
+					<Modal title={this.state.selectedEvent.title}
+						canCancel 
+						canConfirm 
+						onCancel={this.cancelEventCreation} 
+						onConfirm={this.bookEventHandler}
+					>
+						<h1>{this.state.selectedEvent.title}</h1>
+						<h2>
+							${this.state.selectedEvent.price} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}
+						</h2>
+						<p>{this.state.selectedEvent.description}</p>
+					</Modal>
+				)}
+
 				{this.context.token && (
 					<div className="events-control">
 						<p>share your events</p>
@@ -251,7 +270,7 @@ class EventsPage extends React.Component {
 				{this.state.isLoading ? (
 					<Spinner />
 				) : (
-					<EventList events={events} authUserId={this.context.userId}/>
+					<EventList events={events} authUserId={this.context.userId} onViewDetail={this.showDetailHandler}/>
 				)}
 				
 			</React.Fragment>

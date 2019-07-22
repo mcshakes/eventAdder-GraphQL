@@ -11,6 +11,9 @@ const eventList = props => {
 					eventId={event._id} 
 					userId={props.authUserId} 
 					creatorId={event.creator._id}
+					date={event.date}
+					price={event.price}
+					onDetail={props.onViewDetail}
 					/>
 	})
 
