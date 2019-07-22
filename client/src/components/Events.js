@@ -181,7 +181,49 @@ class EventsPage extends React.Component {
 	}
 
 	bookEventHandler = () => {
+		if (!this.context.token) {
+			this.setState({ selectedEvent: null })
+			return;
+		}
 
+		const requestBody = {
+			query: `
+				mutation {
+					bookEvent(eventId: "${this.state.selectedEvent._id}") {
+						_id
+						createdAt
+						updatedAt
+					}
+				}
+			`
+		}
+
+		const token = this.context.token;
+		
+		fetch("http://localhost:8080/graphql", {
+			method: "POST",
+			body: JSON.stringify(requestBody),
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + token
+			}
+		})
+		.then(res => {
+			if (res.status !== 200 && res.status !== 201) {
+				throw new Error("Failed!");
+			}
+			return res.json();
+		})
+		.then(resData => {
+			// const events = resData.data.events;
+			// this.setState({ events: events, isLoading: false });
+			console.log(resData)
+			this.setState({ selectedEvent: null })
+
+		})
+		.catch(err => {
+			console.log(err);
+		})
 	}
 
 	render() {
@@ -249,7 +291,7 @@ class EventsPage extends React.Component {
 						canConfirm 
 						onCancel={this.cancelEventCreation} 
 						onConfirm={this.bookEventHandler}
-						confirmText="Book Event"
+						confirmText={this.context.token ? "Book Event" : "Confirm"}
 					>
 						<h1>{this.state.selectedEvent.title}</h1>
 						<h2>
