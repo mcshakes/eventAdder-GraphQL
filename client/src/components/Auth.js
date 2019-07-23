@@ -4,16 +4,13 @@ import "./Auth.css";
 import AuthContext from "../context/auth-context";
 
 class AuthPage extends React.Component {
-	state = {
-		isLogin: true
-	}
-
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			email: "",
-			password: ""
+			password: "",
+			isLogin: true
 		}
 	}
 
@@ -99,6 +96,8 @@ class AuthPage extends React.Component {
 	};
 
 	render() {
+		console.log("login? ", this.state.isLogin)
+
 		return (
 			<form className="auth-form" onSubmit={this.handleSubmit}>
 
@@ -123,8 +122,7 @@ class AuthPage extends React.Component {
 				<div className="form-actions">
 					<button type="submit">Submit</button>
 					
-					<button type="button" 
-							onClick={this.switchButtonHandler}>
+					<button type="button" onClick={this.switchButtonHandler}>
 						Switch to {this.state.isLogin ? "Sign Up" : "Log In"}
 					</button>
 				</div>

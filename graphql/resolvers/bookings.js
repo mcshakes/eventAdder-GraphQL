@@ -12,7 +12,8 @@ module.exports = {
 				}
 
 		try {
-			const bookings = await Booking.find();
+			const bookings = await Booking.find({user: req.userId});
+			// Find according to userId featured with auth middleware
 
 			return bookings.map(booking => {
 				return { 
