@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha __tests__/*.test.js",
     "start": "nodemon app.js",
     "update:packages": "node wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
@@ -15,12 +21,16 @@
     "body-parser": "*",
     "express": "*",
     "express-graphql": "*",
-    "graphql": "*",
     "jsonwebtoken": "*",
     "mongoose": "*"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-graphql": "^4.0.0",
+    "graphql": "^15.4.0",
+    "mocha": "^8.2.1",
     "nodemon": "*",
+    "sinon": "^9.2.3",
     "supertest": "^6.0.1"
   }
 }
