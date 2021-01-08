@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const graphQLHTTP = require("express-graphql");
+const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
 const isAuthenticated = require("./middleware/isAuthenticated");
 
@@ -27,7 +27,7 @@ app.use(isAuthenticated);
 
 app.use(
 	"/graphql", 
-	graphQLHTTP({
+	graphqlHTTP({
 		schema: graphQLSchema,
 		rootValue: graphQLResolvers,
 		graphiql: true
@@ -36,7 +36,9 @@ app.use(
 
 // mongoDB Atlas is DB
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-l4uk8.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, { useNewUrlParser: true })
+mongoose.connect(
+	`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ablju.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+{ useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		app.listen(8080); 		
 	})

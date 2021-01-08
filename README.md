@@ -1,5 +1,3 @@
-users can sign in and create events
-or purchase events
-and look at bookings
+# To - Do
 
-basically eventbrite
+1) Tests for the backend API, including snapshot testing.
