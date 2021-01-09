@@ -10,7 +10,8 @@ class AuthPage extends React.Component {
 		this.state = {
 			email: "",
 			password: "",
-			isLogin: true
+			isLogin: true,
+			error: ''
 		}
 	}
 
@@ -28,7 +29,7 @@ class AuthPage extends React.Component {
 		})
 	};
 
-	handleSubmit = (event) => {
+	handleSubmit = async (event) => {
 		event.preventDefault();
 
 		let email = this.state.email;
@@ -63,24 +64,35 @@ class AuthPage extends React.Component {
 			}
 		};
 		
+		try {
+			let apiResponse = await fetch("http://localhost:8080/graphql", {
+									method: "POST",
+									body: JSON.stringify(requestBody),
+									headers: {
+										"Content-Type": "application/json"
+									}
+								});
 
-		fetch("http://localhost:8080/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers: {
-				"Content-Type": "application/json"
+			if (apiResponse.status !== 200 && apiResponse.status !== 201) {
+				const message = `An error has occured: ${apiResponse.status}`;
+				throw new Error(message);
 			}
-		})
-		.then(res => {
-			if (res.status !== 200 && res.status !== 201) {
-				throw new Error("Failed!");
+
+			
+			let resData = await apiResponse.json();
+
+			if (resData.errors) {
+				let message = resData.errors[0].message;
+
+				this.setState({ error: message })
+				console.log("ERROR:", resData.errors);
 			}
-			return res.json();
-		})
-		.then(resData => {
-			console.log("resData in Auth.js", resData)
+
+			// need to handle when they send without password
+			// SPLIT UP LOGIN FROM CREATE USER FUNCTIONALITY
+
+			console.log(resData.data)
 			if (resData.data.login.token) {
-				// this.context is a property given by react through the context object
 				
 				this.context.login(
 					resData.data.login.token, 
@@ -88,45 +100,47 @@ class AuthPage extends React.Component {
 					resData.data.login.tokenExpiration
 				);
 			}
-		})
-		.catch(err => {
-			console.log(err);
-		})
+
+		} catch (err) {
+			console.log("Fetch Error Caught: ", err)
+		}
 
 	};
 
 	render() {
-		console.log("login? ", this.state.isLogin)
 
 		return (
-			<form className="auth-form" onSubmit={this.handleSubmit}>
+			<div className="s">
+				{ this.state.error && <h3 className="error"> { this.state.error } </h3> }
 
-				<div className="form-control">
-					<label htmlFor="email">Email</label>
-					<input type="email" 
-							id="email"
-							name="email" 
-							value={this.state.email} 
-							onChange={this.handleChange}/>
-				</div>
+				<form className="auth-form" onSubmit={this.handleSubmit}>
+					<div className="form-control">
+						<label htmlFor="email">Email</label>
+						<input type="email" 
+								id="email"
+								name="email" 
+								value={this.state.email} 
+								onChange={this.handleChange}/>
+					</div>
 
-				<div className="form-control">
-					<label htmlFor="password">Password</label>
-					<input type="password" 
-							id="password"
-							name="password" 
-							value={this.state.password}
-							onChange={this.handleChange} />
-				</div>
+					<div className="form-control">
+						<label htmlFor="password">Password</label>
+						<input type="password" 
+								id="password"
+								name="password" 
+								value={this.state.password}
+								onChange={this.handleChange} />
+					</div>
 
-				<div className="form-actions">
-					<button type="submit" data-testid="auth-submit">Submit</button>
-					
-					<button type="button" data-testid="auth-selection" onClick={this.switchButtonHandler}>
-						Switch to {this.state.isLogin ? "Sign Up" : "Log In"}
-					</button>
-				</div>
-			</form>
+					<div className="form-actions">
+						<button type="submit" data-testid="auth-submit">Submit</button>
+						
+						<button type="button" data-testid="auth-selection" onClick={this.switchButtonHandler}>
+							Switch to {this.state.isLogin ? "Sign Up" : "Log In"}
+						</button>
+					</div>
+				</form>
+			</div>
 		);
 	}
 }

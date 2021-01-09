@@ -6,6 +6,11 @@ import Auth from '../src/components/Auth';
 afterEach(cleanup)
 
 describe('Auth Page', () => {
+
+    // beforeEach(() => {
+    //     const { getByTestId } = render(<Auth />);
+    // });
+
     test('renders Auth with login by default', () => {
         const { getByTestId } = render(<Auth />);
     
