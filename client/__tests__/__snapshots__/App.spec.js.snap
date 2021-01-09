@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders App component 1`] = `
+<DocumentFragment>
+  <header
+    class="main-navigation"
+  >
+    <div
+      class="main-navigation__logo"
+    >
+      <h1>
+        Events! Book Em!
+      </h1>
+    </div>
+    <nav
+      class="main-navigation__items"
+    >
+      <ul>
+        <li>
+          <a
+            aria-current="page"
+            class="active"
+            href="/auth"
+          >
+            Log In
+          </a>
+        </li>
+        <li>
+          <a
+            href="/events"
+          >
+            Browse Events
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main
+    class="main-content"
+  >
+    <form
+      class="auth-form"
+    >
+      <div
+        class="form-control"
+      >
+        <label
+          for="email"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        class="form-control"
+      >
+        <label
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value=""
+        />
+      </div>
+      <div
+        class="form-actions"
+      >
+        <button
+          data-testid="auth-submit"
+          type="submit"
+        >
+          Submit
+        </button>
+        <button
+          data-testid="auth-selection"
+          type="button"
+        >
+          Switch to Sign Up
+        </button>
+      </div>
+    </form>
+  </main>
+</DocumentFragment>
+`;

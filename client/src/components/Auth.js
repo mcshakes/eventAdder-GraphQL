@@ -120,9 +120,9 @@ class AuthPage extends React.Component {
 				</div>
 
 				<div className="form-actions">
-					<button type="submit">Submit</button>
+					<button type="submit" data-testid="auth-submit">Submit</button>
 					
-					<button type="button" onClick={this.switchButtonHandler}>
+					<button type="button" data-testid="auth-selection" onClick={this.switchButtonHandler}>
 						Switch to {this.state.isLogin ? "Sign Up" : "Log In"}
 					</button>
 				</div>
