@@ -8,6 +8,7 @@ import EventItem from "./events/EventItem";
 import EventList from "./events/EventList";
 import Spinner from "./spinner/Spinner"
 import "./Events.css";
+import { EVENTS_QUERY } from "../graphql/events";
 
 
 class EventsPage extends React.Component {
@@ -131,21 +132,7 @@ class EventsPage extends React.Component {
 		this.setState({ isLoading: true })
 
 		let requestBody = {
-			query: `
-				query {
-					events {
-						_id
-						title
-						description
-						date
-						price
-						creator {
-							_id
-							email
-						}
-					}
-				}
-			`
+			query: EVENTS_QUERY
 		}
 		
 		fetch("http://localhost:8080/graphql", {
