@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
 import AuthPage from "./components/Auth";
 import BookingsPage from "./components/Bookings";
-import EventsPage from "./pages/Events/Events";
+import EventsPage from "./pages/Events/EventsContainer";
 
 import MainNavigation from "./components/navigation/MainNavigation";
 import AuthContext from "./context/auth-context";
