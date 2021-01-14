@@ -6,7 +6,7 @@ import Auth from '../src/components/Auth';
 
 afterEach(cleanup)
 
-describe('Auth Page', () => {
+describe('Auth Component', () => {
 
     test('renders Auth Component with login by default', () => {
         const { getByTestId } = render(<Auth />);

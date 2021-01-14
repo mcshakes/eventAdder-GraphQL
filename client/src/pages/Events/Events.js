@@ -1,14 +1,15 @@
 import React from "react";
 
-import Modal from "../components/modals/Modal";
-import Backdrop from "./backdrop/Backdrop";
-import AuthContext from "../context/auth-context";
+import Modal from "../../components/modals/Modal";
+import Backdrop from "../../components/backdrop/Backdrop";
+import AuthContext from "../../context/auth-context";
 
-import EventItem from "./events/EventItem";
-import EventList from "./events/EventList";
-import Spinner from "./spinner/Spinner"
+import EventItem from "./components/EventItem";
+import EventList from "./components/EventList";
+import Spinner from "../../components/spinner/Spinner";
 import "./Events.css";
-import { EVENTS_QUERY } from "../graphql/events";
+import { EVENTS_QUERY } from "../../graphql/events";
+import { gql, useQuery } from '@apollo/client';
 
 
 class EventsPage extends React.Component {
@@ -27,7 +28,9 @@ class EventsPage extends React.Component {
 			isLoading: false,
 			selectedEvent: null
 		}
+
 	};
+
 	isActive = true;
 
 

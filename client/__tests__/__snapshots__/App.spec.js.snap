@@ -38,56 +38,60 @@ exports[`App renders App component 1`] = `
   <main
     class="main-content"
   >
-    <form
-      class="auth-form"
+    <div
+      class="s"
     >
-      <div
-        class="form-control"
+      <form
+        class="auth-form"
       >
-        <label
-          for="email"
+        <div
+          class="form-control"
         >
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value=""
-        />
-      </div>
-      <div
-        class="form-control"
-      >
-        <label
-          for="password"
+          <label
+            for="email"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value=""
+          />
+        </div>
+        <div
+          class="form-control"
         >
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value=""
-        />
-      </div>
-      <div
-        class="form-actions"
-      >
-        <button
-          data-testid="auth-submit"
-          type="submit"
+          <label
+            for="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value=""
+          />
+        </div>
+        <div
+          class="form-actions"
         >
-          Submit
-        </button>
-        <button
-          data-testid="auth-selection"
-          type="button"
-        >
-          Switch to Sign Up
-        </button>
-      </div>
-    </form>
+          <button
+            data-testid="auth-submit"
+            type="submit"
+          >
+            Submit
+          </button>
+          <button
+            data-testid="auth-selection"
+            type="button"
+          >
+            Switch to Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
   </main>
 </DocumentFragment>
 `;
