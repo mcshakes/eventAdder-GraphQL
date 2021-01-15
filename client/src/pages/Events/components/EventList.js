@@ -3,15 +3,15 @@ import EventItem from "./EventItem";
 import "./EventList.css";
 
 function EventList(props) {
-	// console.log(props.events.events)
+	console.log("FROM LIST", props.events.events)
 
 	const allEvents = props.events.events.map(event => {
 		return <EventItem 
 					key={event._id} 
 					title={event.title} 
 					eventId={event._id} 
-					// userId={props.authUserId} 
-					// creatorId={event.creator._id}
+					userId={props.authUserId} 
+					creatorId={event.creator._id}
 					date={event.date}
 					price={event.price}
 					// onDetail={props.onViewDetail}
