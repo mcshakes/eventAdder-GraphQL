@@ -10,11 +10,11 @@ function EventList(props) {
 					key={event._id} 
 					title={event.title} 
 					eventId={event._id} 
-					userId={props.authUserId} 
+					authenticatedUserId={props.authUserId} 
 					creatorId={event.creator._id}
 					date={event.date}
 					price={event.price}
-					// onDetail={props.onViewDetail}
+					onDetail={props.onViewDetail}
 					/>
 	})
 

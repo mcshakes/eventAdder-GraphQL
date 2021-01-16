@@ -3,7 +3,7 @@ import "./EventItem.css";
 
 
 function eventItem(props)  {
-	console.log(props)
+	console.log("IN ITEM ", props)
 
 	return (
 
@@ -12,9 +12,18 @@ function eventItem(props)  {
 			<h1>{props.title}</h1>
 			<h2>${props.price} - {new Date(props.date).toLocaleDateString()}</h2>
 		</div>
-		<div>
-			{props.userId === props.creatorId && <p>You are owner of this event</p>}
-		</div>
+
+		{props.authenticatedUserId === props.creatorId && (
+			<div>
+				<p>You are owner of this event</p>
+			</div>
+		)}
+
+		{props.authenticatedUserId != props.creatorId && (
+			<div>
+				<button className="btn" onClick={() => props.onDetail(props.eventId)}>View Details</button> 
+			</div>
+		)}
 		{/* <div>
 				<button className="btn" onClick={props.onDetail.bind(this, props.eventId)}>View Details</button> 
 		</div> */}
