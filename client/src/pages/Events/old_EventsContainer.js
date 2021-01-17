@@ -1,14 +1,16 @@
 import React from "react";
 
-import Modal from "../components/modals/Modal";
-import Backdrop from "./backdrop/Backdrop";
-import AuthContext from "../context/auth-context";
+import Modal from "../../components/modals/Modal";
+import Backdrop from "../../components/backdrop/Backdrop";
+import AuthContext from "../../context/auth-context";
 
-import EventItem from "./events/EventItem";
-import EventList from "./events/EventList";
-import Spinner from "./spinner/Spinner"
+import EventItem from "./components/EventItem";
+import EventList from "./components/EventList";
+import Spinner from "../../components/spinner/Spinner";
 import "./Events.css";
-
+import { EVENTS_QUERY } from "../../graphql/events";
+import { gql, useQuery } from '@apollo/client';
+import AllEvents from "./components/AllEvents";
 
 class EventsPage extends React.Component {
 	static contextType = AuthContext;
@@ -26,13 +28,15 @@ class EventsPage extends React.Component {
 			isLoading: false,
 			selectedEvent: null
 		}
+
 	};
+
 	isActive = true;
 
 
-	componentDidMount() {
-		this.fetchAllEvents();
-	}
+	// componentDidMount() {
+	// 	this.fetchAllEvents();
+	// }
 
 	createEventHandler = () => {
 		this.setState({ creatingStatus: true });
@@ -127,55 +131,41 @@ class EventsPage extends React.Component {
 		})
 	}
 
-	fetchAllEvents = () => {
-		this.setState({ isLoading: true })
+	// fetchAllEvents = () => {
+	// 	this.setState({ isLoading: true })
 
-		let requestBody = {
-			query: `
-				query {
-					events {
-						_id
-						title
-						description
-						date
-						price
-						creator {
-							_id
-							email
-						}
-					}
-				}
-			`
-		}
+	// 	let requestBody = {
+	// 		query: EVENTS_QUERY
+	// 	}
 		
-		fetch("http://localhost:8080/graphql", {
-			method: "POST",
-			body: JSON.stringify(requestBody),
-			headers: {
-				"Content-Type": "application/json"
+	// 	fetch("http://localhost:8080/graphql", {
+	// 		method: "POST",
+	// 		body: JSON.stringify(requestBody),
+	// 		headers: {
+	// 			"Content-Type": "application/json"
 
-			}
-		})
-		.then(res => {
-			if (res.status !== 200 && res.status !== 201) {
-				throw new Error("Failed!");
-			}
-			return res.json();
-		})
-		.then(resData => {
-			const events = resData.data.events;
-			if (this.isActive) {
-				this.setState({ events: events, isLoading: false });
-			}
+	// 		}
+	// 	})
+	// 	.then(res => {
+	// 		if (res.status !== 200 && res.status !== 201) {
+	// 			throw new Error("Failed!");
+	// 		}
+	// 		return res.json();
+	// 	})
+	// 	.then(resData => {
+	// 		const events = resData.data.events;
+	// 		if (this.isActive) {
+	// 			this.setState({ events: events, isLoading: false });
+	// 		}
 
-		})
-		.catch(err => {
-			console.log(err);
-			if (this.isActive) {
-				this.setState({ isLoading: false })
-			}
-		})
-	}
+	// 	})
+	// 	.catch(err => {
+	// 		console.log(err);
+	// 		if (this.isActive) {
+	// 			this.setState({ isLoading: false })
+	// 		}
+	// 	})
+	// }
 
 	showDetailHandler = (eventId) => {
 		this.setState(prevState => {
